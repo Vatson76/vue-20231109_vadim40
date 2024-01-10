@@ -1,7 +1,8 @@
 <script lang="jsx">
 // Предлагается решать задачу с использованием JSX, но вы можете использовать и чистые рендер-функции
 
-// import UiTab from './UiTab.vue';
+import UiTab from './UiTab.vue';
+import { cloneVNode } from 'vue'
 
 export default {
   name: 'UiTabs',
@@ -19,15 +20,22 @@ export default {
   },
 
   render() {
+    const vnodes = this.$slots.default?.()
+    const onlyTabsNodes = vnodes.filter((vnode) => vnode.type === UiTab)
+    const activeTabNode = onlyTabsNodes.filter((vnode) => vnode.props.name === this.active)[0]
     return (
       <div class="tabs">
         <div class="tabs__nav" role="tablist">
-          <a class="tabs__tab" role="tab">Tab</a>
-          <a class="tabs__tab tabs__tab_active" role="tab">Active Tab</a>
-          <a class="tabs__tab" role="tab">Tab</a>
+          {onlyTabsNodes.map((vnode) => {
+            return <a
+              class={vnode === activeTabNode ? "tabs__tab tabs__tab_active" : "tabs__tab"}
+              onClick={() => this.$emit('update:active', vnode.props.name)}
+              role="tab">{vnode.props.title}
+            </a>
+          })}
         </div>
         <div class="tabs__content">
-          ACTIVE TAB CONTENT
+          {activeTabNode ? cloneVNode(activeTabNode) : null}
         </div>
       </div>
     );
