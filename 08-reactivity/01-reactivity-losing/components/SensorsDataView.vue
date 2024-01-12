@@ -9,7 +9,7 @@
 import { SensorsDataController } from '../services/SensorsDataController';
 import { SensorsDataStreamingService } from '../services/SensorsDataStreamingService';
 import SensorsDataRow from './SensorsDataRow';
-import { unref } from 'vue';
+import {klona} from "klona";
 
 export default {
   name: 'SensorsDataView',
@@ -43,7 +43,7 @@ export default {
     },
 
     setData(sensors) {
-      this.sensors.value = unref(sensors);
+      this.sensors = klona(sensors);
     },
   },
 };

@@ -10,7 +10,7 @@ export default {
 
   data() {
     return {
-      panes: [0,1,2,3,4],
+      panes: this.$slots.default?.(),
     };
   },
 
@@ -40,11 +40,11 @@ export default {
   render() {
     return (
       <div class="panes">
-        {this.panes.map((number, index) => {
+       {this.panes.map((vnode, index) => {
           return (
             <div class="pane">
               <div class="pane__content">
-                {this.$slots[`pane-${number}`]?.()}
+                { vnode }
               </div>
               <div class="pane__controls">
                 <UiButton class={index === 0 ? "pane__disabled-button" : ""} variant="secondary" block onClick={() => this.up(index)}> Up </UiButton>

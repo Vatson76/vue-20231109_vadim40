@@ -35,7 +35,7 @@ export default {
           })}
         </div>
         <div class="tabs__content">
-          {activeTabNode ? cloneVNode(activeTabNode) : null}
+          {activeTabNode ? activeTabNode : null}
         </div>
       </div>
     );
